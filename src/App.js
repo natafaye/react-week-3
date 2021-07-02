@@ -1,28 +1,35 @@
-import React, { useState, useEffect } from 'react';
-import { getTodos, createTodo, updateTodo, deleteTodo } from './services/TodoService';
+import React, { useEffect, useState } from 'react'
+import TodoList from './components/TodoList'
 import TodoFormModal from './components/TodoFormModal';
-import TodoList from './components/TodoList';
+import { getTodos, createTodo, updateTodo, deleteTodo } from "./services/TodoService";
 
-let tempID;
+let tempID; // This is my hack, don't judge
 
 export default function App() {
+
+	// State
 	const [todos, setTodos] = useState([]);
 	const [editTodo, setEditTodo] = useState(null);
 	const [isTodoFormModalOpen, setIsTodoFormModalOpen] = useState(false);
-	const [isLoading, setIsLoading] = useState(true);
 
+	// Read
 	const refreshTodos = async () => {
-		setIsLoading(true);
 		const freshTodos = await getTodos();
 		setTodos((freshTodos) ? freshTodos : []);
-		setIsLoading(false);
 	}
-
 	useEffect(() => {
 		refreshTodos();
-	}, []);
+	}, [])
 
+	// Delete
+	const handleDelete = async (todo) => {
+		await deleteTodo(todo);
+		refreshTodos();
+	}
+
+	// Create & Update
 	const handleEditStart = (todo) => {
+		// A little hacky here
 		if(todo === null) {
 			tempID = Math.random();
 		}
@@ -31,7 +38,6 @@ export default function App() {
 	}
 
 	const handleEditSave = async (todoData) => {
-		setIsLoading(true);
 		if(editTodo)
 			await updateTodo({ ...editTodo, text: todoData.text })
 		else
@@ -40,13 +46,10 @@ export default function App() {
 		handleCloseTodoFormModal();
 	}
 
-	const handleDelete = async (todo) => {
-		await deleteTodo(todo);
-		refreshTodos();
-	}
-    
+	// Modal
 	const handleCloseTodoFormModal = () => setIsTodoFormModalOpen(false);
 
+	// Render
 	return (
 		<React.Fragment>
 			<div className="container mt-3">
@@ -59,17 +62,16 @@ export default function App() {
 					</div>
 				</div>
 			</div>
-			<TodoList todos={todos} 
-					onEdit={handleEditStart} 
-					onDelete={handleDelete}
-					isLoading={isLoading} />
+			<TodoList 
+				todos={todos} 
+				onDelete={handleDelete} 
+				onEdit={handleEditStart}/>
 			<TodoFormModal 
 				key={(editTodo) ? editTodo._id : tempID }
 				todo={editTodo} 
 				isOpen={isTodoFormModalOpen} 
 				onSave={handleEditSave} 
-				onClose={handleCloseTodoFormModal}
-				isLoading={isLoading} />
+				onClose={handleCloseTodoFormModal}/>
 		</React.Fragment>
-	);
+	)
 }

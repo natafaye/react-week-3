@@ -1,11 +1,11 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react'
 import { Modal as BootstrapModal } from 'bootstrap';
 
-export default function Modal({ isOpen, title, actionButtonText, onActionButtonClick, onClose, isLoading, children}) {
+export default function Modal({ isOpen, title, actionButtonText, onActionButtonClick, onClose, children }) {
 
     const modal = useRef(null);
 
-    useEffect(() => { 
+    useEffect(() => {
         const bootstrapModal = BootstrapModal.getOrCreateInstance(modal.current);
         (isOpen) ? bootstrapModal.show() : bootstrapModal.hide();
     }, [isOpen])
@@ -23,14 +23,8 @@ export default function Modal({ isOpen, title, actionButtonText, onActionButtonC
                     </div>
                     <div className="modal-footer">
                         <button type="button" className="btn btn-secondary" onClick={onClose}>Close</button>
-                        <button type="button" className="btn btn-primary" onClick={onActionButtonClick} disabled={isLoading}>
-                            {(!isLoading) ? 
-                                actionButtonText : 
-                                <span>
-                                    <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                                    Saving...
-                                </span>
-                            }
+                        <button type="button" className="btn btn-primary" onClick={onActionButtonClick}>
+                            { actionButtonText }
                         </button>
                     </div>
                 </div>

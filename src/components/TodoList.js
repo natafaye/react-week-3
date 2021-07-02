@@ -1,11 +1,10 @@
-import React from 'react';
+import React from 'react'
 
-function Todo({ todo, onEdit, onDelete }) {
-
+function Todo({ todo, onDelete, onEdit }) {
     return (
         <div className="row py-3">
             <div className="col">
-                <input type="checkbox" className="form-check-input me-3" onChange={() => onDelete(todo)}/>
+                <input type="checkbox" className="form-check-input me-3" onChange={() => onDelete(todo) }/>
                 { todo.text }
             </div>
             <div className="col">
@@ -15,19 +14,12 @@ function Todo({ todo, onEdit, onDelete }) {
     )
 }
 
-export default function TodoList({ todos, onEdit, onDelete, isLoading }) {
-    const todoElements = todos.map(todo => <Todo key={todo._id} todo={todo} onEdit={onEdit} onDelete={onDelete} />);
+export default function TodoList({ todos, onDelete, onEdit }) {
+    const todoElements = todos.map(todo => <Todo key={todo._id} todo={todo} onDelete={ onDelete } onEdit={ onEdit } />);
     const emptyElement = <p>Tada! You have no todos.</p>
-    const loadingElement = 
-        <div className="loading-overlay text-center d-flex align-items-center justify-content-center">
-            <div className="spinner-border" role="status">
-                <span className="visually-hidden">Loading...</span>
-            </div>
-        </div>
     return (
         <div className="container position-relative striped">
             { (todoElements) ? todoElements : emptyElement }
-            { (isLoading) ? loadingElement : "" }
         </div>
     )
 }

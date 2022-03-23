@@ -1,5 +1,6 @@
 import React from 'react'
 
+// We wouldn't name these todoProp and TodoComponent, this is just for demonstration
 function TodoComponent({ todoProp }) {
     return (
         <div className="row py-3">
@@ -15,7 +16,7 @@ function TodoComponent({ todoProp }) {
 }
 
 export default function TodoList({ todos }) {
-
+    // We wouldn't name these todoParameter, todoProp and TodoComponent, this is just for demonstration
     const todoElements = todos.map(todoParameter => <TodoComponent todoProp={todoParameter}/>);
     const emptyElement = <p>Tada! You have no todos.</p>
     return (

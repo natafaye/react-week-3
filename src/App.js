@@ -37,7 +37,7 @@ export default function App() {
 			<div className="container mt-3">
 				<div className="row mb-3">
 					<div className="col">
-						<h2>Ta Da</h2>
+						<h2>Tah Dah</h2>
 					</div>
 					<div className="col">
 						<button className="btn btn-success float-end">New Todo</button>

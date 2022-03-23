@@ -6,10 +6,12 @@ export default function TodoForm({ todo, onSave }) {
         initialTextValue = todo.text;
     }
     const [textValue, setTextValue] = useState(initialTextValue);
+    
     const handleTextChange = (e) => {
         setTextValue(e.target.value);
     }
     
+    // If we had another property on our todo, we could allow that to be edited as well
     // const [descriptionValue, setDescriptionValue] = useState("Starting description");
     // const handleDescriptionChange = (e) => {
     //     setDescriptionValue(e.target.value);

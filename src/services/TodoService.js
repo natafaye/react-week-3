@@ -1,5 +1,5 @@
 
-const TODO_ENDPOINT = 'https://crudcrud.com/api/034aad9cec6646b5873e17e617ac0c4e/todos';
+const TODO_ENDPOINT = 'https://crudcrud.com/api/a2e8672298004b7aaa92ec6d3a29688c/todos';
 
 const getFetchOptions = (method, data) => ({ 
     method: method, 
@@ -9,12 +9,13 @@ const getFetchOptions = (method, data) => ({
 
 export const getTodos = async () => {
     try {
-        const resp = await fetch(TODO_ENDPOINT);
-        return await resp.json();
+        const response = await fetch(TODO_ENDPOINT);
+        const data = await response.json();
+        return data;
     }
     catch(e) {
         console.log(e);
-        return null;
+        return [];
     }
 }
 
@@ -31,7 +32,8 @@ export const createTodo = async (todo) => {
 
 export const updateTodo = async (todo) => {
     try {
-        const resp = await fetch(TODO_ENDPOINT + "/" + todo._id, getFetchOptions("PUT", { text: todo.text }));
+        const todoWithoutId = { text: todo.text };
+        const resp = await fetch(TODO_ENDPOINT + "/" + todo._id, getFetchOptions("PUT", todoWithoutId));
         return resp;
     }
     catch(e) {

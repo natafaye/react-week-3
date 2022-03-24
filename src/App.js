@@ -1,51 +1,58 @@
 import React, { useEffect, useState } from 'react'
 import TodoList from './components/TodoList'
-import TodoForm from './components/TodoForm';
-import { getTodos, createTodo, updateTodo, deleteTodo } from "./services/TodoService";
-
-let tempID; // This is my hack, don't judge
+// import TodoForm from './components/TodoForm';
+import { createTodo, getTodos } from "./services/TodoService";
 
 export default function App() {
-	
+	// const initialTodos = [
+	// 	{
+	// 		_id: 0,
+	// 		text: "Laundry"
+	// 	},
+	// 	{
+	// 		_id: 1,
+	// 		text: "Dishes"
+	// 	},
+	// ]
 	const [todos, setTodos] = useState([])
-	const [currentEditTodo, setEditTodo] = useState(null)
-
-	const handleEditButtonClicked = (todo) => {
-		setEditTodo(todo);
-	}
-
-	const handleSaveTodoForm = (updatedTodo) => {
-		// maybe create a new todo
-		// maybe update a todo
-		// you could call updateTodo or createTodo from here to persist to server
-	}
 
 	const refreshTodos = async () => {
-		let freshTodos = await getTodos();
-		if(!freshTodos) {
-			freshTodos = [];
-		}
+		// get the stuff from the server
+		const freshTodos = await getTodos();
 		setTodos(freshTodos);
 	}
+
 	useEffect(() => {
 		refreshTodos();
-	}, [])
+	}, []) // pass empty array as second parameter if you want it to only run once
 
-	// Render
+
+	const onCreateTodo = async (newTodo) => {
+		await createTodo(newTodo);
+		refreshTodos();
+	}
+
+	// if(dsjfkdslfds) {
+	// 	// CAN'T HOOK HERE
+	// }
+
+	// const onCreateClick = () => {
+	// 	// CAN'T HOOK HERE
+	// }
+
 	return (
-		<React.Fragment>
-			<div className="container mt-3">
-				<div className="row mb-3">
-					<div className="col">
-						<h2>Tah Dah</h2>
-					</div>
-					<div className="col">
-						<button className="btn btn-success float-end">New Todo</button>
-					</div>
+		<div className="container mt-3">
+			<div className="row mb-3">
+				<div className="col">
+					<h2>Tah Dah</h2>
+				</div>
+				<div className="col">
+					<button className="btn btn-success float-end" >New Todo</button>
 				</div>
 			</div>
-			<TodoList todos={todos}/>
-			<TodoForm onSave={handleSaveTodoForm} todo={currentEditTodo}/>
-		</React.Fragment>
+			<div className="row">
+				<TodoList todos={todos} />
+			</div>
+		</div>
 	)
 }

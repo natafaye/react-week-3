@@ -1,44 +1,64 @@
-import React, { useEffect, useState } from 'react'
+import React, { Component, useEffect, useState } from 'react'
 import TodoList from './components/TodoList'
 // import TodoForm from './components/TodoForm';
-import { createTodo, getTodos } from "./services/TodoService";
+import { createTodo, getTodos, updateTodo, deleteTodo } from "./services/TodoService";
+
+// export default class App extends Component {
+// 	constructor(props) {
+// 		super(props);
+// 		this.state = {
+// 			greeting: "hello",
+// 			show: true
+// 		}
+// 	}
+
+// 	onButtonClick = () => {
+// 		this.setState({ greeting: "goodbye "});
+// 	}
+
+// 	render() {
+// 		return <div>
+// 			{ this.state.greeting }
+// 			<button onClick={this.onButtonClick}>Say goodbye</button>
+// 		</div>
+// 	}
+// }
+
+// export default function App() {
+
+// 	const [greeting, setGreeting] = useState("hello")
+// 	const [show, setShow] = useState(true)
+
+// 	const onButtonClick = () => {
+// 		setGreeting("goodbye");
+// 	}
+
+// 	return (
+// 		<div>
+// 			{ greeting }
+// 			<button onClick={onButtonClick}>Say goodbye</button>
+// 		</div>
+// 	)
+// }
 
 export default function App() {
-	// const initialTodos = [
-	// 	{
-	// 		_id: 0,
-	// 		text: "Laundry"
-	// 	},
-	// 	{
-	// 		_id: 1,
-	// 		text: "Dishes"
-	// 	},
-	// ]
-	const [todos, setTodos] = useState([])
+	const [todos, setTodos] = useState( [] )
 
 	const refreshTodos = async () => {
-		// get the stuff from the server
-		const freshTodos = await getTodos();
+		const freshTodos = await getTodos()
 		setTodos(freshTodos);
-	}
-
-	useEffect(() => {
+        // go get the all the todos from the server
+		// set the state to be that array of todos that we got from the server
+    }
+	
+    useEffect(() => {
 		refreshTodos();
-	}, []) // pass empty array as second parameter if you want it to only run once
+	}, []) // only run once, after the first render
 
-
-	const onCreateTodo = async (newTodo) => {
+	const addTodo = async (newTodo) => {
 		await createTodo(newTodo);
 		refreshTodos();
 	}
-
-	// if(dsjfkdslfds) {
-	// 	// CAN'T HOOK HERE
-	// }
-
-	// const onCreateClick = () => {
-	// 	// CAN'T HOOK HERE
-	// }
 
 	return (
 		<div className="container mt-3">
@@ -56,3 +76,5 @@ export default function App() {
 		</div>
 	)
 }
+
+
